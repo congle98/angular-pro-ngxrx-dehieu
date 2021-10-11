@@ -10,6 +10,8 @@ import { CoreModule } from './core.module';
 import { LoggingService } from './logging.service';
 import {StoreModule} from '@ngrx/store';
 import {shoppingListReducer} from './shopping-list/store/shopping-list.reducer';
+import {authReducer} from './auth/store/auth.reducer';
+import {appReducer} from './store/app.reducer';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -18,7 +20,7 @@ import {shoppingListReducer} from './shopping-list/store/shopping-list.reducer';
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
-    StoreModule.forRoot({shoppingList: shoppingListReducer}),
+    StoreModule.forRoot(appReducer),
     CoreModule
   ],
   bootstrap: [AppComponent],

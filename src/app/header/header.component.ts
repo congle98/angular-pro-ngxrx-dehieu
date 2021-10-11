@@ -9,7 +9,7 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isAuthenticated = true;
+  isAuthenticated = false;
   private userSub: Subscription;
 
   constructor(

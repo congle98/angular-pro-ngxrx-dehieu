@@ -6,6 +6,9 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { User } from './user.model';
+import {Store} from '@ngrx/store';
+import {AppState} from '../store/app.reducer';
+import {Login} from "./store/auth.actions";
 
 export interface AuthResponseData {
   kind: string;
@@ -22,15 +25,15 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private store: Store<AppState>) {}
 
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' + environment.firebaseAPIKey,
         {
-          email: email,
-          password: password,
+          email,
+          password,
           returnSecureToken: true
         }
       )
@@ -52,8 +55,8 @@ export class AuthService {
       .post<AuthResponseData>(
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + environment.firebaseAPIKey,
         {
-          email: email,
-          password: password,
+          email,
+          password,
           returnSecureToken: true
         }
       )
@@ -89,7 +92,8 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      this.user.next(loadedUser);
+      // this.user.next(loadedUser);
+      this.store.dispatch(new Login({email: loadedUser.email, userId: loadedUser.id, token: loadedUser.token, expirationDate: new Date()}))
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();

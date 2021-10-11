@@ -7,7 +7,8 @@ import { LoggingService } from '../logging.service';
 import {Store} from '@ngrx/store';
 import {Recipe} from '../recipes/recipe.model';
 import {FIND_INGREDIENT, FindIngredient} from './store/shopping-list.action';
-import {AppState, State} from './store/shopping-list.reducer';
+import { State} from './store/shopping-list.reducer';
+import {AppState} from '../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-list',
